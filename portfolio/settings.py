@@ -19,6 +19,7 @@ INSTALLED_APPS = [
     'projects',
     'users',
     'core',
+    'crispy_forms',
 ]
 
 MIDDLEWARE = [
@@ -53,6 +54,8 @@ TEMPLATES = [
     },
 ]
 
+CRISPY_TEMPLATE_PACK = 'bootstrap4'
+
 WSGI_APPLICATION = 'portfolio.wsgi.application'
 
 
@@ -65,18 +68,18 @@ DATABASES = {
 
 
 AUTH_PASSWORD_VALIDATORS = [
-#    {
-#        'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
-#    },
-#    {
-#        'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator',
-#    },
-#    {
-#        'NAME': 'django.contrib.auth.password_validation.CommonPasswordValidator',
-#    },
-#    {
-#        'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
-#    },
+    {
+        'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
+    },
+    {
+        'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator',
+    },
+    {
+        'NAME': 'django.contrib.auth.password_validation.CommonPasswordValidator',
+    },
+    {
+        'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
+    },
 ]
 
 LANGUAGE_CODE = 'en-us'
@@ -94,8 +97,8 @@ STATIC_URL = '/static/'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-LOGIN_REDIRECT_URL = "users:dashboard"
-LOGOUT_REDIRECT_URL = "users:dashboard"
+LOGIN_REDIRECT_URL = "projects:all_projects"
+LOGOUT_REDIRECT_URL = "projects:all_projects"
 
 EMAIL_HOST = "localhost"
 EMAIL_PORT = 1025
