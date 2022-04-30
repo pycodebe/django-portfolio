@@ -1,11 +1,15 @@
 import os
+import environ
 from pathlib import Path
+
+env = environ.Env()
+environ.Env.read_env()
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-SECRET_KEY = 'fake_secret_key'
+SECRET_KEY = env('SECRET_KEY')
 
-DEBUG = True
+DEBUG = bool(int(env('DEBUG')))
 
 ALLOWED_HOSTS = ['*']
 
@@ -20,6 +24,7 @@ INSTALLED_APPS = [
     'users',
     'core',
     'crispy_forms',
+    'social_django',
 ]
 
 MIDDLEWARE = [
@@ -30,6 +35,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'social_django.middleware.SocialAuthExceptionMiddleware'
 ]
 
 ROOT_URLCONF = 'portfolio.urls'
@@ -49,6 +55,8 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'social_django.context_processors.backends',
+                'social_django.context_processors.login_redirect',
             ],
         },
     },
@@ -97,8 +105,18 @@ STATIC_URL = '/static/'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-LOGIN_REDIRECT_URL = "projects:all_projects"
-LOGOUT_REDIRECT_URL = "projects:all_projects"
+LOGIN_URL = 'login'
+LOGOUT_URL = 'logout'
+LOGIN_REDIRECT_URL = 'projects:all_projects'
+LOGOUT_REDIRECT_URL = 'projects:all_projects'
 
 EMAIL_HOST = "localhost"
 EMAIL_PORT = 1025
+
+AUTHENTICATION_BACKENDS = [
+    'social_core.backends.github.GithubOAuth2',
+    'django.contrib.auth.backends.ModelBackend',
+]
+
+SOCIAL_AUTH_GITHUB_KEY = env('SOCIAL_AUTH_GITHUB_KEY')
+SOCIAL_AUTH_GITHUB_SECRET = env('SOCIAL_AUTH_GITHUB_SECRET')
